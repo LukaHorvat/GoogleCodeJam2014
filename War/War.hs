@@ -19,6 +19,11 @@ splitWhile f (x : xs) | f x       = (x : yes, no)
                       where (yes, no) = splitWhile f xs
 splitWhile _ [] = ([], [])
 
+--His optimal strategy is to play the lightest block that still beats her block.
+--If such a block doesn't exist, he plays the lightest block he has (to cut his losses)
+--Her best bet is to play the heaviest block she has (probably). That way, if she has any chance
+--of winning, he'll have to discard some of his lighter block which wins her a few more points at
+--the end.
 caseSolver :: Case -> (Int, Int)
 caseSolver (Case her his) = (best, def)
     where herSort = reverse $ List.sort her
@@ -32,6 +37,9 @@ caseSolver (Case her his) = (best, def)
           (best, _) = optimal her his
           (def, _) = defaultOutcome herSort hisSort (0, 0)
 
+--Her optimal cheating strategy is to play the lightest block that's heavier than his lightest block.
+--She then says a number greater than any of his blocks, making him play the lightest one he has.
+--If his lightest block if heacier than all of her blocks, she can't win any more points.
 optimal :: [Double] -> [Double] -> (Int, Int)
 optimal her his = (length her - hisScore, hisScore)
     where hisScore = optimal' herSort hisSort

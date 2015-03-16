@@ -20,6 +20,8 @@ toMap :: Int -> [Char] -> [[Char]]
 toMap _ [] = []
 toMap n xs = take n xs : toMap n (drop n xs)
 
+--No pretty way of explaining this.
+--A ton of special cases and map generation boilerplate
 solveCase :: Case -> Maybe [[Char]]
 solveCase (Case rows cols n) | rows > cols = transpose <$> (solveCase $ Case cols rows n)
 solveCase (Case 1 cols n) = Just $ placeClick $ return $ replicate (cols - n) '.' ++ replicate n '*'
