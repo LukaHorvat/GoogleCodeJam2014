@@ -29,6 +29,9 @@ writeSolutions path = writeFile path . unlines . prefixSolutions
 number :: Parser Int
 number = withSpaces $ fmap read $ many1 digit
 
+num :: (Num a, Read a) => Parser a
+num = withSpaces $ fmap read $ many1 digit
+
 (<++>) :: Applicative f => f [a] -> f [a] -> f [a]
 (<++>) = liftA2 (++)
 
